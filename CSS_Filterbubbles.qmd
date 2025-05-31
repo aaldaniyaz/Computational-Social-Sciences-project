@@ -5,12 +5,14 @@ editor: visual
 ---
 
 ```{r}
+
 # Load necessary libraries
+
 library(tidyverse)
 library(tidyr)
 library(readr)
 
-filterbubbles_ver1_2_experiment_table <- read_csv("~/Documents/Constructor studies/computational soocial science/filterbubbles_ver1.2 experiment-table.csv", 
+filterbubbles_ver1_2_experiment_table <- read_csv("filterbubbles_ver1.2 experiment-table.csv", 
     skip = 6)
 View(filterbubbles_ver1_2_experiment_table)
 # Load the data
@@ -40,7 +42,6 @@ summary_grouped <- data %>%
     avg_tightness = mean(biggest_cluster_tightness, na.rm = TRUE),
     .groups = "drop"
   )
-
 
 ```
 
@@ -82,6 +83,7 @@ rpart.plot(model,
 ```{r}
 ggplot(summary_grouped, aes(x = acceptance_latitude, y = acceptance_sharpness, fill = avg_tightness)) +
   geom_tile() +
+  geom_text(aes(label = round(avg_tightness, 1)), color = "white", size = 4) +
   scale_fill_viridis_c(name = "Tightness") +
   labs(
     title = "Avg Tightness of Biggest Cluster",
@@ -139,26 +141,13 @@ summary_grouped %>%
 ```
 
 ```{r}
-ggplot(summary_grouped, aes(x = acceptance_sharpness, y = avg_bubbles)) +
-  geom_point(aes(size = avg_biggest_size), color = "steelblue", alpha = 0.7) +
-  scale_size_continuous(name = "Avg Size of\nBiggest Bubble") +
-  labs(
-    title = "Number of Bubbles vs Acceptance Sharpness",
-    x = "Acceptance Sharpness",
-    y = "Average Number of Bubbles"
-  ) +
-  theme_minimal()
-
-```
-
-```{r}
-ggplot(summary_grouped, aes(x = acceptance_latitude, y = avg_bubbles)) +
-  geom_point(aes(size = avg_biggest_size), color = "darkred", alpha = 0.7) +
+ggplot(summary_grouped, aes(x = acceptance_latitude, y = acceptance_sharpness)) +
+  geom_point(aes(size = avg_tightness), color = "steelblue", alpha = 0.7) +
   scale_size_continuous(name = "Avg Size of\nBiggest Bubble") +
   labs(
     title = "Number of Bubbles vs Acceptance Latitude",
-    x = "Acceptance Latitude",
-    y = "Average Number of Bubbles"
+    x = "Acceptance Latitudes",
+    y = "Average Tightness"
   ) +
   theme_minimal()
 
@@ -223,15 +212,15 @@ ggplot(summary_grouped, aes(x = acceptance_sharpness, y = avg_bubbles)) +
 ```
 
 ```{r}
-ggplot(summary_grouped, aes(x = acceptance_sharpness, y = as.factor(acceptance_latitude))) +
+ggplot(summary_grouped, aes(x = acceptance_latitude, y = as.factor(acceptance_sharpness))) +
   geom_tile(aes(fill = avg_tightness)) +
-  geom_text(aes(label = round(avg_bubbles, 1)), color = "white", size = 4) +
-  scale_fill_gradient(low = "lightblue", high = "darkblue", name = "Tightness") +
+  geom_text(aes(label = round(avg_tightness, 1)), color = "white", size = 4) +
+  #scale_fill_gradient(low = "blue", high = "yellow", name = "Number of bubbles") +
   labs(
     title = "Bubble Count & Tightness Across Acceptance Parameters",
-    subtitle = "Text = Avg. Bubbles, Fill = Tightness",
-    x = "Acceptance Sharpness",
-    y = "Acceptance Latitude"
+    subtitle = "Text, Fill = Tightness",
+    x = "Acceptance Latitude",
+    y = "Acceptance Sharpness"
   ) +
   theme_minimal(base_size = 14)
 
@@ -299,33 +288,9 @@ ggplot(sharpness_plot_data, aes(x = acceptance_sharpness)) +
 
 ```
 
-```{r}
-ggplot(summary_grouped, aes(x = acceptance_latitude, y = avg_bubbles, color = as.factor(acceptance_sharpness))) +
-  geom_line(size = 1.2) +
-  geom_point(size = 3) +
-  scale_color_brewer(palette = "Set1", name = "Sharpness") +
-  labs(
-    title = "Acceptance Latitude vs Avg Bubbles (by Sharpness)",
-    x = "Acceptance Latitude",
-    y = "Average Number of Bubbles"
-  ) +
-  theme_minimal(base_size = 14)
 
-```
 
-```{r}
-ggplot(summary_grouped, aes(x = acceptance_latitude, y = avg_tightness, color = as.factor(acceptance_sharpness))) +
-  geom_line(size = 1.2, linetype = "dashed") +
-  geom_point(size = 3, shape = 17) +
-  scale_color_brewer(palette = "Set1", name = "Sharpness") +
-  labs(
-    title = "Acceptance Latitude vs Avg Tightness (by Sharpness)",
-    x = "Acceptance Latitude",
-    y = "Average Tightness"
-  ) +
-  theme_minimal(base_size = 14)
 
-```
 
 ```{r}
 ggplot(summary_grouped, aes(x = acceptance_sharpness, y = avg_bubbles, color = as.factor(acceptance_latitude))) +
@@ -341,16 +306,4 @@ ggplot(summary_grouped, aes(x = acceptance_sharpness, y = avg_bubbles, color = a
 
 ```
 
-```{r}
-ggplot(summary_grouped, aes(x = acceptance_sharpness, y = avg_tightness, color = as.factor(acceptance_latitude))) +
-  geom_line(size = 1.2, linetype = "dashed") +
-  geom_point(size = 3, shape = 17) +
-  scale_color_brewer(palette = "Dark2", name = "Latitude") +
-  labs(
-    title = "Acceptance Sharpness vs Avg Tightness (by Latitude)",
-    x = "Acceptance Sharpness",
-    y = "Average Tightness"
-  ) +
-  theme_minimal(base_size = 14)
 
-```
