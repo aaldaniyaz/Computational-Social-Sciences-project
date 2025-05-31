@@ -7,7 +7,7 @@ We rebuilt the triple-filter-bubble agent-based model (Geschke, Lorenz & Holtz, 
 
 | Path                                      | What it is                                                                                                                           |
 | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `model/TripleFilterBubble_Extended.nlogo` | **NetLogo model** with our extensions (bubble counter, tightness reporter, auto-stop).                                               |
+| `filterbubbles_extended_model.nlogo` | **NetLogo model** with our extensions (bubble counter, tightness reporter, auto-stop).                                               |
 | `experiments/bubble_grid_results.csv`     | **Raw output** from 288 simulations – one row per (latitude D, sharpness δ, seed) with bubble-count, tightness, etc.                 |
 | `analysis/analysis_figures.R`             | **R script** (RStudio-ready) that ingests the CSV and reproduces all heat-maps, decision trees, and scatter plots used in the paper. |
 | `figures/`                                | Pre-rendered PNGs of the key visuals for quick browsing.                                                                             |
